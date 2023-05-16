@@ -1,6 +1,16 @@
 version: "3.8"
 
 services:
+  mysql:
+    image: mysql:5.7
+    container_name: vic1_mysql
+    hostname: vic1mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      victim:
+        ipv4_address: 192.168.1.102
+
   vic1:
     image: vulhub/wordpress:4.6
     container_name: vic1
@@ -19,16 +29,6 @@ services:
         ipv4_address: 192.168.1.101
     volumes:
       - wp_vol:/var/www/html
-
-  mysql:
-    image: mysql:5.7
-    container_name: vic1_mysql
-    hostname: vic1mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-    networks:
-      victim:
-        ipv4_address: 192.168.1.102
 
   
 volumes:
