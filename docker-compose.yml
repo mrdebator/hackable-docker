@@ -40,7 +40,7 @@ services:
     networks:
       victim:
     command: >
-      bash -c 'sleep 3;
+      bash -c 'sleep 5;
       wp core install --path="/var/www/html" --url="http://192.168.1.101" --title="Victim1" --admin_user=admin --admin_password=password --admin_email=admin@example.com --allow-root'
 
   
