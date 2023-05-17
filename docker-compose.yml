@@ -30,6 +30,19 @@ services:
     volumes:
       - wp_vol:/var/www/html
 
+  wp-cli:
+    image: forumone/wordpress-cli:7.1-cli2.3.0
+    depends_on:
+      - mysql
+      - vic1 
+    volumes:
+      - wp_vol:/var/www/html
+    networks:
+      victim:
+    command: >
+      bash -c 'sleep 3;
+      wp core install --path="/var/www/html" --url="http://192.168.1.101" --title="Victim1" --admin_user=admin --admin_password=password --admin_email=admin@example.com --allow-root'
+
   
 volumes:
   wp_vol: {}
