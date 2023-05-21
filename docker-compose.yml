@@ -17,6 +17,7 @@ services:
     hostname: vic1
     depends_on:
       - mysql
+    restart: on-failure
     environment:
       - WORDPRESS_DB_HOST=mysql:3306
       - WORDPRESS_DB_USER=root
@@ -35,13 +36,15 @@ services:
     depends_on:
       - mysql
       - vic1 
+    restart: on-failure
     volumes:
       - wp_vol:/var/www/html
     networks:
       victim:
     command: >
       bash -c 'sleep 5;
-      wp core install --path="/var/www/html" --url="http://192.168.1.101" --title="Victim1" --admin_user=admin --admin_password=password --admin_email=admin@example.com --allow-root'
+      wp core install --path="/var/www/html" --url="http://192.168.1.101" --title="Victim1" --admin_user=admin --admin_password=password --admin_email=admin@example.com --allow-root;
+      wp plugin install rest-api --activate --allow-root'
 
   
 volumes:
