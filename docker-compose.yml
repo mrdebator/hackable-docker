@@ -28,6 +28,12 @@ services:
     networks:
       victim:
         ipv4_address: 192.168.1.101
+    # healthcheck:
+    #   test: ["CMD", "mysql", "-h", "192.168.1.102", "-uroot", "-p"]
+    #   interval: 30s
+    #   timeout: 30s
+    #   retries: 3
+    #   start_period: 5s
     volumes:
       - wp_vol:/var/www/html
 
@@ -36,7 +42,7 @@ services:
     depends_on:
       - mysql
       - vic1 
-    restart: on-failure
+    # restart: on-failure
     volumes:
       - wp_vol:/var/www/html
     networks:
@@ -44,7 +50,9 @@ services:
     command: >
       bash -c 'sleep 5;
       wp core install --path="/var/www/html" --url="http://192.168.1.101" --title="Victim1" --admin_user=admin --admin_password=password --admin_email=admin@example.com --allow-root;
-      wp plugin install rest-api --activate --allow-root'
+      wp plugin install rest-api --activate --allow-root;
+      wp plugin install wordpress-importer --activate --allow-root;
+      wp import ./themetathesis.xml --authors=create --allow-root'
 
   
 volumes:
